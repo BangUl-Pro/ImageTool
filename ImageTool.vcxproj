@@ -192,6 +192,7 @@
     <ClInclude Include="ImageToolView.h" />
     <ClInclude Include="IppImage\IppConvert.h" />
     <ClInclude Include="IppImage\IppDib.h" />
+    <ClInclude Include="IppImage\IppEnhance.h" />
     <ClInclude Include="IppImage\IppImage.h" />
     <ClInclude Include="IppImage\RGBBYTE.h" />
     <ClInclude Include="MainFrm.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="ImageToolView.cpp" />
     <ClCompile Include="IppImage\IppConvert.cpp" />
     <ClCompile Include="IppImage\IppDib.cpp" />
+    <ClCompile Include="IppImage\IppEnhance.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -9,6 +9,43 @@ void IppDibToImage(IppDib& dib, IppByteImage& img) {
 	int w = dib.GetWidth();
 	int h = dib.GetHeight();
 	int ws = (w + 3) & ~3;
+	BYTE* pDIBits = dib.GetDIBitsAddr();
+	
+	img.CreateImage(w, h);
+	BYTE** pixels = img.GetPixels2D();
+
+	for (int i = 0; i < h; i++)
+	{
+		memcpy(pixels[i], &pDIBits[(h - 1 - i) * ws], w);
+	}
+}
+
+
+void IppDibToImage(IppDib& dib, IppRgbImage& img) {
+	assert(dib.IsValid());
+	assert(dib.GetBitCount() == 24);
+
+	int w = dib.GetWidth();
+	int h = dib.GetHeight();
+	int ws = (w * 3 + 3) & ~3;
+	BYTE* pDIBits = dib.GetDIBitsAddr();
+
+	img.CreateImage(w, h);
+	RGBBYTE** pixels = img.GetPixels2D();
+
+	for (int i = 0; i < h; i++)
+	{
+		memcpy(pixels[i], &pDIBits[(h - 1 - i) * ws], w * 3);
+	}
+}
+
+
+void IppImageToDib(IppByteImage& img, IppDib& dib) {
+	assert(img.IsValid());
+
+	int w = img.GetWidth();
+	int h = img.GetHeight();
+	int ws = (w + 3) & ~3;
 	BYTE** pixels = img.GetPixels2D();
 
 	dib.CreateGrayBitmap(w, h);

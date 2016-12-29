@@ -210,6 +210,10 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "중복 창 띄우기(&D)",                32771
     END
+    POPUP "이미지(&I)"
+    BEGIN
+        MENUITEM "반전(&I)",                      ID_IMAGE_INVERSE
+    END
     POPUP "도움말(&H)"
     BEGIN
         MENUITEM "ImageTool 정보(&A)...",         ID_APP_ABOUT

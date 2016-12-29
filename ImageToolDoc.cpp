@@ -14,6 +14,16 @@
 
 #include <propkey.h>
 
+#include "IppImage\IppImage.h"
+#include "IppImage\IppDib.h"
+#include "IppImage\IppConvert.h"
+#include "IppImage\IppEnhance.h"
+
+#define CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img) \
+do {\
+IppByteImage img; IppDibToImage(m_Dib, img);\
+} while(0);
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -25,6 +35,8 @@ IMPLEMENT_DYNCREATE(CImageToolDoc, CDocument)
 BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_WINDOW_DUPLICATE, &CImageToolDoc::OnWindowDuplicate)
 	ON_COMMAND(ID_EDIT_COPY, &CImageToolDoc::OnEditCopy)
+	ON_COMMAND(ID_IMAGE_INVERSE, &CImageToolDoc::OnImageInverse)
+	ON_UPDATE_COMMAND_UI(ID_IMAGE_INVERSE, &CImageToolDoc::OnUpdateImageInverse)
 END_MESSAGE_MAP()
 
 
@@ -45,7 +57,7 @@ BOOL CImageToolDoc::OnNewDocument()
 	if (!CDocument::OnNewDocument())
 		return FALSE;
 
-	BOOL ret = FALSE;
+	BOOL ret = TRUE;
 	
 	if (theApp.m_pNewDib == NULL) {
 		CFileNewDlg dlg;
@@ -55,13 +67,14 @@ BOOL CImageToolDoc::OnNewDocument()
 			else
 				ret = m_Dib.CreateRgbBitmap(dlg.m_nWidth, dlg.m_nHeight);
 		}
+		else {
+			ret = FALSE;
+		}
 	}
 	else {
-		ret = TRUE;
 		m_Dib = *(theApp.m_pNewDib);
 		theApp.m_pNewDib = NULL;
 	}
-
 	return ret;
 }
 
@@ -184,4 +197,24 @@ void CImageToolDoc::OnEditCopy()
 {
 	if (m_Dib.IsValid())
 		m_Dib.CopyToClipboard();
+}
+
+
+void CImageToolDoc::OnImageInverse()
+{
+	IppByteImage img;
+	IppDibToImage(m_Dib, img);
+	IppInverse(img);
+
+	IppDib dib;
+	IppImageToDib(img, dib);
+
+	AfxPrintInfo(_T("[반전] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dib);
+}
+
+
+void CImageToolDoc::OnUpdateImageInverse(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Dib.GetBitCount() == 8);
 }

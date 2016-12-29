@@ -38,7 +38,7 @@ BOOL IppDib::CreateGrayBitmap(LONG nWidth, LONG nHeight) {
 	DWORD dwWidthStep = (m_nWidth * m_nBitCount / 8 + 3) & ~3;
 	DWORD dwSizeImage = dwWidthStep * m_nHeight;
 
-	m_nDibSize = sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * (1 << m_nBitCount) + dwSizeImage;
+	m_nDibSize = sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * GetPaletteNums() + dwSizeImage;
 
 	m_pDib = new BYTE[m_nDibSize];
 	LPBITMAPINFOHEADER lpBitmapInfoHeader = (LPBITMAPINFOHEADER)m_pDib;
@@ -52,6 +52,7 @@ BOOL IppDib::CreateGrayBitmap(LONG nWidth, LONG nHeight) {
 	lpBitmapInfoHeader->biYPelsPerMeter = 0;
 	lpBitmapInfoHeader->biClrUsed = 0;
 	lpBitmapInfoHeader->biClrImportant = 0;
+	lpBitmapInfoHeader->biCompression = BI_RGB;
 
 	RGBQUAD* pPal = (RGBQUAD*) ((BYTE*) m_pDib + sizeof(BITMAPINFOHEADER));
 
