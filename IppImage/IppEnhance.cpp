@@ -114,3 +114,33 @@ void IppHistogramEqualization(IppByteImage& img) {
 	for (int i = 0; i < size; i++)
 		p[i] = static_cast<BYTE>(limit(cdf[p[i]] * 255));
 }
+
+
+bool IppAdd(IppByteImage& img1, IppByteImage& img2, IppByteImage& img3) {
+	return TRUE;
+}
+
+
+bool IppSub(IppByteImage& img1, IppByteImage& img2, IppByteImage& img3) {
+	return TRUE;
+}
+
+
+bool IppAve(IppByteImage& img1, IppByteImage& img2, IppByteImage& img3) {
+	return TRUE;
+}
+
+
+bool IppDiff(IppByteImage& img1, IppByteImage& img2, IppByteImage& img3) {
+	return TRUE;
+}
+
+
+bool IppAND(IppByteImage& img1, IppByteImage& img2, IppByteImage& img3) {
+	return TRUE;
+}
+
+
+bool IppOR(IppByteImage& img1, IppByteImage& img2, IppByteImage& img3) {
+	return TRUE;
+}

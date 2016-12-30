@@ -185,6 +185,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArithmeticLogicalDlg.h" />
     <ClInclude Include="BrightnessContrastDlg.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="FileNewDlg.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArithmeticLogicalDlg.cpp" />
     <ClCompile Include="BrightnessContrastDlg.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="FileNewDlg.cpp" />

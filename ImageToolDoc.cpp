@@ -21,6 +21,7 @@
 #include "BrightnessContrastDlg.h"
 #include "GammaCorrectionDlg.h"
 #include "HistogramDlg.h"
+#include "ArithmeticLogicalDlg.h"
 
 #define CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img) \
 do {\
@@ -45,6 +46,7 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_VIEW_HISTOGRAM, &CImageToolDoc::OnViewHistogram)
 	ON_COMMAND(ID_HISTO_STRETCHING, &CImageToolDoc::OnHistoStretching)
 	ON_COMMAND(ID_HISTO_EQUALIZATION, &CImageToolDoc::OnHistoEqualization)
+	ON_COMMAND(ID_ARITHMETIC_LOGICAL, &CImageToolDoc::OnArithmeticLogical)
 END_MESSAGE_MAP()
 
 
@@ -299,4 +301,42 @@ void CImageToolDoc::OnHistoEqualization()
 
 	AfxPrintInfo(_T("[히스토그램 균등화] 입력 영상: %s"), GetTitle());
 	AfxNewBitmap(dib);
+}
+
+
+
+void CImageToolDoc::OnArithmeticLogical()
+{
+	CArithmeticLogicalDlg dlg;
+	if (dlg.DoModal() == IDOK) {
+		CImageToolDoc* pDoc1 = (CImageToolDoc*)dlg.m_pDoc1;
+		CImageToolDoc* pDoc2 = (CImageToolDoc*)dlg.m_pDoc2;
+
+		IppByteImage img1, img2, img3;
+		IppDibToImage(pDoc1->m_Dib, img1);
+		IppDibToImage(pDoc2->m_Dib, img2);
+
+		bool ret = false;
+
+		switch (dlg.m_nFunction) {
+		case 0:ret = IppAdd(img1, img2, img3); break;
+		case 1:ret = IppSub(img1, img2, img3); break;
+		case 2:ret = IppAve(img1, img2, img3); break;
+		case 3:ret = IppDiff(img1, img2, img3); break;
+		case 4:ret = IppAND(img1, img2, img3); break;
+		case 5:ret = IppOR(img1, img2, img3); break;
+		}
+
+		if (ret) {
+			IppDib dib;
+			IppImageToDib(img3, dib);
+
+			TCHAR* op[] = { _T("덧셈"), _T("뺄셈"), _T("평균"), _T("차이"), _T("논리 AND"), _T("논리 OR") };
+			AfxPrintInfo(_T("[산술 및 논리 연산] [%s] 입력영상 #1: %s, 입력영상 #2: %s"), op[dlg.m_nFunction], pDoc1->GetTitle(), pDoc2->GetTitle());
+			AfxNewBitmap(dib);
+		}
+		else {
+			AfxMessageBox(_T("영상의 크기가 다릅니다"));
+		}
+	}
 }
