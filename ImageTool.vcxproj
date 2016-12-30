@@ -188,6 +188,8 @@
     <ClInclude Include="BrightnessContrastDlg.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="FileNewDlg.h" />
+    <ClInclude Include="GammaCorrectionDlg.h" />
+    <ClInclude Include="HistogramDlg.h" />
     <ClInclude Include="ImageTool.h" />
     <ClInclude Include="ImageToolDoc.h" />
     <ClInclude Include="ImageToolView.h" />
@@ -206,6 +208,8 @@
     <ClCompile Include="BrightnessContrastDlg.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="FileNewDlg.cpp" />
+    <ClCompile Include="GammaCorrectionDlg.cpp" />
+    <ClCompile Include="HistogramDlg.cpp" />
     <ClCompile Include="ImageTool.cpp" />
     <ClCompile Include="ImageToolDoc.cpp" />
     <ClCompile Include="ImageToolView.cpp" />

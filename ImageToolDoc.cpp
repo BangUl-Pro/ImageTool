@@ -19,6 +19,8 @@
 #include "IppImage\IppConvert.h"
 #include "IppImage\IppEnhance.h"
 #include "BrightnessContrastDlg.h"
+#include "GammaCorrectionDlg.h"
+#include "HistogramDlg.h"
 
 #define CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img) \
 do {\
@@ -39,6 +41,10 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_IMAGE_INVERSE, &CImageToolDoc::OnImageInverse)
 	ON_UPDATE_COMMAND_UI(ID_IMAGE_INVERSE, &CImageToolDoc::OnUpdateImageInverse)
 	ON_COMMAND(ID_BRIGHTNESS_CONTRAST, &CImageToolDoc::OnBrightnessContrast)
+	ON_COMMAND(ID_GAMMA_CORRECTION, &CImageToolDoc::OnGammaCorrection)
+	ON_COMMAND(ID_VIEW_HISTOGRAM, &CImageToolDoc::OnViewHistogram)
+	ON_COMMAND(ID_HISTO_STRETCHING, &CImageToolDoc::OnHistoStretching)
+	ON_COMMAND(ID_HISTO_EQUALIZATION, &CImageToolDoc::OnHistoEqualization)
 END_MESSAGE_MAP()
 
 
@@ -238,4 +244,59 @@ void CImageToolDoc::OnBrightnessContrast()
 		AfxPrintInfo(_T("[밝기/명암비 조절] 입력 영상: %s, 밝기: %d, 명암비: %d%%"), GetTitle(), dlg.m_nBrightness, dlg.m_nContrast);
 		AfxNewBitmap(dib);
 	}
+}
+
+
+void CImageToolDoc::OnGammaCorrection()
+{
+	CGammaCorrectionDlg dlg;
+	if (dlg.DoModal() == IDOK) {
+		IppByteImage img;
+		IppDibToImage(m_Dib, img);
+		IppGammaCorrection(img, dlg.m_fGamma);
+
+		IppDib dib;
+		IppImageToDib(img, dib);
+
+		AfxPrintInfo(_T("[감마 보정] 입력 영상: %s, 감마: %4.2f"), GetTitle(), dlg.m_fGamma);
+		AfxNewBitmap(dib);
+	}
+}
+
+
+void CImageToolDoc::OnViewHistogram()
+{
+	CHistogramDlg dlg;
+	dlg.SetImage(&m_Dib);
+	dlg.DoModal();
+}
+
+
+void CImageToolDoc::OnHistoStretching()
+{
+	IppByteImage img;
+	IppDibToImage(m_Dib, img);
+
+	IppHistogramStretching(img);
+
+	IppDib dib;
+	IppImageToDib(img, dib);
+
+	AfxPrintInfo(_T("[히스토그램 스트레칭] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dib);
+}
+
+
+void CImageToolDoc::OnHistoEqualization()
+{
+	IppByteImage img;
+	IppDibToImage(m_Dib, img);
+
+	IppHistogramEqualization(img);
+
+	IppDib dib;
+	IppImageToDib(img, dib);
+
+	AfxPrintInfo(_T("[히스토그램 균등화] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dib);
 }

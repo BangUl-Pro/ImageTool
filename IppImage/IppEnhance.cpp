@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <math.h>
 #include "IppEnhance.h"
 
 void IppInverse(IppByteImage& img) {
@@ -30,4 +31,86 @@ void IppContrast(IppByteImage& img, int n) {
 	for (int i = 0; i < size; i++) {
 		p[i] = static_cast<BYTE>(limit(p[i] + (p[i] - 128) * n / 100));
 	}
+}
+
+
+void IppGammaCorrection(IppByteImage& img, float gamma) {
+	int invGamma = 1.f / gamma;
+
+	float gamma_table[256];
+	for (int i = 0; i < 256; i++)
+	{
+		gamma_table[i] = pow((i / 255.f), invGamma);
+	}
+
+	int size = img.GetSize();
+	BYTE* p = img.GetPixels();
+
+	for (int i = 0; i < size; i++)
+	{
+		p[i] = static_cast<BYTE>(limit(gamma_table[p[i]] * 255 + 0.5f));
+	}
+}
+
+
+void IppHistogram(IppByteImage& img, float histo[256]) {
+	int size = img.GetSize();
+	BYTE* p = img.GetPixels();
+
+	// 히스토그램 계산
+	int cnt[256];
+	memset(cnt, 0, sizeof(int) * 256);
+	for (int i = 0; i < size; i++)
+	{
+		cnt[p[i]]++;
+	}
+
+	// 히스토그램 정규화
+	for (int i = 0; i < 256; i++)
+	{
+		histo[i] = static_cast<float>(cnt[i]) / size;
+	}
+}
+
+
+void IppHistogramStretching(IppByteImage& img) {
+	int size = img.GetSize();
+	BYTE* p = img.GetPixels();
+
+	// 최대, 최소 그레이스케일 값 계산
+	BYTE grayMax, grayMin;
+	grayMax = grayMin = p[0];
+	for (int i = 1; i < size; i++)
+	{
+		if (grayMax < p[i]) grayMax = p[i];
+		if (grayMin > p[i]) grayMin = p[i];
+	}
+
+	if (grayMax == grayMin)
+		return;
+
+	// 히스토그램 스트레칭
+	for (int i = 0; i < size; i++)
+	{
+		p[i] = (p[i] - grayMin) * 255 / (grayMax - grayMin);
+	}
+}
+
+
+void IppHistogramEqualization(IppByteImage& img) {
+	int size = img.GetSize();
+	BYTE* p = img.GetPixels();
+
+	// 히스토그램 계산
+	float histo[256];
+	IppHistogram(img, histo);
+
+	float cdf[256] = { 0.0, };
+	cdf[0] = histo[0];
+	for (int i = 1; i < 256; i++)
+		cdf[i] = cdf[i - 1] + histo[i];
+
+	// 히스토그램 균등화
+	for (int i = 0; i < size; i++)
+		p[i] = static_cast<BYTE>(limit(cdf[p[i]] * 255));
 }
