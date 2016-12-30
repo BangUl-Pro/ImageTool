@@ -47,6 +47,7 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_HISTO_STRETCHING, &CImageToolDoc::OnHistoStretching)
 	ON_COMMAND(ID_HISTO_EQUALIZATION, &CImageToolDoc::OnHistoEqualization)
 	ON_COMMAND(ID_ARITHMETIC_LOGICAL, &CImageToolDoc::OnArithmeticLogical)
+	ON_COMMAND(ID_BITLANE_SLICING, &CImageToolDoc::OnBitlaneSlicing)
 END_MESSAGE_MAP()
 
 
@@ -339,4 +340,21 @@ void CImageToolDoc::OnArithmeticLogical()
 			AfxMessageBox(_T("영상의 크기가 다릅니다"));
 		}
 	}
+}
+
+
+void CImageToolDoc::OnBitlaneSlicing()
+{
+	IppByteImage img, imgPlane;
+	IppDib dib;
+	IppDibToImage(m_Dib, img);
+
+	for (int i = 0; i < 8; i++)
+	{
+		IppBitPlane(img, imgPlane, i);
+		IppImageToDib(imgPlane, dib);
+
+		AfxNewBitmap(dib);
+	}
+	AfxPrintInfo(_T("[비트 평면 분할] 입력 영상: %s"), GetTitle());
 }

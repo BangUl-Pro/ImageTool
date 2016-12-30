@@ -177,7 +177,7 @@ BEGIN
         MENUITEM "인쇄 미리 보기(&V)",                ID_FILE_PRINT_PREVIEW
         MENUITEM "인쇄 설정(&R)...",                ID_FILE_PRINT_SETUP
         MENUITEM SEPARATOR
-        MENUITEM "최근에 사용한 파일",                  ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM "최근에 사용한 파일",                  ID_FILE_MRU_FILE1
         MENUITEM SEPARATOR
         MENUITEM "끝내기(&X)",                     ID_APP_EXIT
     END
@@ -223,6 +223,8 @@ BEGIN
         END
         MENUITEM SEPARATOR
         MENUITEM "산술 및 논리 연산(&A)",              ID_ARITHMETIC_LOGICAL
+        MENUITEM "비트 평면 분할(&P)",                32803
+        MENUITEM "모든 창 닫기(&W)",                 ID_WINDOW_COLOSEALL
     END
     POPUP "도움말(&H)"
     BEGIN

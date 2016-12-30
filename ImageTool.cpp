@@ -31,6 +31,7 @@ BEGIN_MESSAGE_MAP(CImageToolApp, CWinAppEx)
 //	ON_COMMAND(ID_EDIT_COPY, &CImageToolApp::OnEditCopy)
 	ON_COMMAND(ID_EDIT_PASTE, &CImageToolApp::OnEditPaste)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_PASTE, &CImageToolApp::OnUpdateEditPaste)
+	ON_COMMAND(ID_WINDOW_COLOSEALL, &CImageToolApp::OnWindowColoseall)
 END_MESSAGE_MAP()
 
 
@@ -274,4 +275,10 @@ void AfxPrintInfo(LPCTSTR lpszFormat, ...) {
 	va_end(argList);
 
 	AfxPrintInfo(message);
+}
+
+
+void CImageToolApp::OnWindowColoseall()
+{
+	CloseAllDocuments(TRUE);
 }

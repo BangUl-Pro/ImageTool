@@ -79,7 +79,7 @@ IppImage<T>::IppImage(const IppImage<T>& img)
 	: width(img.width), height(img.height), pixels(NULL) {
 	if (img.IsValid()) {
 		pixels = new T*[sizeof(T*) * height];
-		pixels[0] = new T[sizeof(T * width * height)];
+		pixels[0] = new T[sizeof(T) * width * height];
 
 		for (int i = 1; i < height; i++)
 			pixels[i] = pixels[i - 1] + width;
