@@ -185,6 +185,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BrightnessContrastDlg.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="FileNewDlg.h" />
     <ClInclude Include="ImageTool.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BrightnessContrastDlg.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="FileNewDlg.cpp" />
     <ClCompile Include="ImageTool.cpp" />

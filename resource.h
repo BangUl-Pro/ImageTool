@@ -26,9 +26,14 @@
 #define IDS_DEBUG_TAB                   301
 #define IDS_FIND_TAB                    302
 #define IDS_EDIT_MENU                   306
+#define IDD_BRIGHTNESS_CONTRAST         313
 #define IDC_WIDTH                       1000
 #define IDC_HEIGHT                      1001
 #define IDC_IMAGE_TYPE                  1002
+#define IDC_BRIGHTNESS_SLIDER           1006
+#define IDC_BRIGHTNESS_EDIT             1007
+#define IDC_CONTRAST_SLIDER             1008
+#define IDC_CONTRAST_EDIT               1009
 #define ID_WINDOW_DUPLICATE             32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -40,14 +45,16 @@
 #define ID_VIEW_ZOOM4                   32779
 #define ID_32787                        32787
 #define ID_IMAGE_INVERSE                32788
+#define ID_32789                        32789
+#define ID_BRIGHTNESS_CONTRAST          32790
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        313
-#define _APS_NEXT_COMMAND_VALUE         32789
-#define _APS_NEXT_CONTROL_VALUE         1003
+#define _APS_NEXT_RESOURCE_VALUE        315
+#define _APS_NEXT_COMMAND_VALUE         32791
+#define _APS_NEXT_CONTROL_VALUE         1008
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif
