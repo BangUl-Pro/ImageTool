@@ -226,6 +226,12 @@ BEGIN
         MENUITEM "비트 평면 분할(&P)",                32803
         MENUITEM "모든 창 닫기(&W)",                 ID_WINDOW_COLOSEALL
     END
+    POPUP "필터(&L)"
+    BEGIN
+        MENUITEM "평균 값 필터(&M)",                 ID_FILTER_MEAN
+        MENUITEM "가중 평균 값 필터(&W)",              ID_FILTER_WEIGHTED_MEAN
+        MENUITEM "가우시안 필터(&G)",                 ID_FILTER_GAUSSIAN
+    END
     POPUP "도움말(&H)"
     BEGIN
         MENUITEM "ImageTool 정보(&A)...",         ID_APP_ABOUT
@@ -373,6 +379,18 @@ BEGIN
     PUSHBUTTON      "취소",IDCANCEL,111,133,50,14
 END
 
+IDD_GAUSIAN DIALOGEX 0, 0, 239, 111
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "가우시안 필터"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "표준편차(Sigma) 입력",IDC_STATIC,7,7,224,68
+    CONTROL         "",IDC_SIGMA_SLIDER,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,7,23,224,15
+    EDITTEXT        IDC_SIGMA_EDIT,101,52,40,14,ES_CENTER | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "확인",IDOK,65,82,50,14
+    PUSHBUTTON      "취소",IDCANCEL,121,81,50,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -468,6 +486,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 147
     END
+
+    IDD_GAUSIAN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 232
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 104
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -498,6 +524,11 @@ BEGIN
 END
 
 IDD_ARITHMETIC_LOGICAL AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_GAUSIAN AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

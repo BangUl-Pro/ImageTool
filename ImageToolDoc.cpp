@@ -22,6 +22,8 @@
 #include "GammaCorrectionDlg.h"
 #include "HistogramDlg.h"
 #include "ArithmeticLogicalDlg.h"
+#include "IppFilter.h"
+#include "GaussianDlg.h"
 
 #define CONVERT_DIB_TO_BYTEIMAGE(m_Dib, img) \
 do {\
@@ -48,6 +50,9 @@ BEGIN_MESSAGE_MAP(CImageToolDoc, CDocument)
 	ON_COMMAND(ID_HISTO_EQUALIZATION, &CImageToolDoc::OnHistoEqualization)
 	ON_COMMAND(ID_ARITHMETIC_LOGICAL, &CImageToolDoc::OnArithmeticLogical)
 	ON_COMMAND(ID_BITLANE_SLICING, &CImageToolDoc::OnBitlaneSlicing)
+	ON_COMMAND(ID_FILTER_MEAN, &CImageToolDoc::OnFilterMean)
+	ON_COMMAND(ID_FILTER_WEIGHTED_MEAN, &CImageToolDoc::OnFilterWeightedMean)
+	ON_COMMAND(ID_FILTER_GAUSSIAN, &CImageToolDoc::OnFilterGaussian)
 END_MESSAGE_MAP()
 
 
@@ -357,4 +362,50 @@ void CImageToolDoc::OnBitlaneSlicing()
 		AfxNewBitmap(dib);
 	}
 	AfxPrintInfo(_T("[비트 평면 분할] 입력 영상: %s"), GetTitle());
+}
+
+
+void CImageToolDoc::OnFilterMean()
+{
+	IppByteImage imgSrc, imgDst;
+	IppDibToImage(m_Dib, imgSrc);
+	IppFilterMean(imgSrc, imgDst);
+
+	IppDib dib;
+	IppImageToDib(imgDst, dib);
+
+	AfxPrintInfo(_T("[평균 값 필터] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dib);
+}
+
+
+void CImageToolDoc::OnFilterWeightedMean()
+{
+	IppByteImage imgSrc, imgDst;
+	IppDibToImage(m_Dib, imgSrc);
+	IppFilterWeightedMean(imgSrc, imgDst);
+
+	IppDib dib;
+	IppImageToDib(imgDst, dib);
+
+	AfxPrintInfo(_T("[가중 평균 값 필터] 입력 영상: %s"), GetTitle());
+	AfxNewBitmap(dib);
+}
+
+
+void CImageToolDoc::OnFilterGaussian()
+{
+	CGaussianDlg dlg;
+	if (dlg.DoModal() == IDOK) {
+		IppByteImage imgSrc;
+		IppFloatImage imgDst;
+		IppDibToImage(m_Dib, imgSrc);
+		IppFilterGaussian(imgSrc, imgDst, dlg.m_fSigma);
+
+		IppDib dib;
+		IppImageToDib(imgDst, dib);
+
+		AfxPrintInfo(_T("[가우시안 값 필터] 입력 영상: %s, Sigma: %4.2f"), GetTitle(), dlg.m_fSigma);
+		AfxNewBitmap(dib);
+	}
 }
